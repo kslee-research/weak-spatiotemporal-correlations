@@ -1,0 +1,6 @@
+[START] out_base=C:\tail_analysis\results_horizental\patch_20251223_121128
+Video: C:\tail_analysis\tails_pattern.mov
+FPS=29.970, Frames=624
+Center: xc=2792.41, yc=1099.98, R_pix=706.42
+num_patches=151, delta_r_cm_used=0.02, min_dx_px=4px
+[OK] Saved results to: C:\tail_analysis\results_horizental\patch_20251223_121128

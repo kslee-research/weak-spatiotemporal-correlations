@@ -1,0 +1,10 @@
+AUTOCORR_DIR: ./results_radial_autocorr\run_20251222_142200
+CONT_DIR: ./results_horizental\patch_20251222_141628
+AUTOCORR_CSV: ./results_radial_autocorr\run_20251222_142200\radial_profile.csv
+METRIC: QF
+AGG: median
+N aligned: 8
+Pearson: 0.878947
+Pearson 95% CI: [0.626048, 0.991134]
+Spearman: 0.904762
+Spearman 95% CI: [0.392405, 1.000000]
