@@ -1,0 +1,24 @@
+analyze_vertical_vbridge.py run info (FAST fixed-r)
+timestamp: 20251213_173018
+video_path: C:\tail_analysis\tails_pattern.mov
+center_file: C:\tail_analysis\sphere_center_radius.npy
+xc,yc,r_pix: 2820.707764, 1070.845337, 782.743713
+pix_per_cm: 260.914571126302
+
+--- params ---
+SIDE: left
+R_TARGET_CM: 1.2
+ROI_HALF_WIDTH: 1 (total width=3px)
+VSPAN_TOTAL_CM: 0.7
+N_ABOVE/N_BELOW: 4/4
+Y_HALF_HEIGHT_PX: 1
+DETREND: True
+Z_SCORE: True
+MAX_FRAMES: None
+
+--- computed geometry ---
+x_r_px: 1725
+y_positions_px(top->bottom): [980, 1003, 1025, 1048, 1094, 1117, 1139, 1162]
+
+--- results ---
+mean_offdiag_corr: 0.029052735164

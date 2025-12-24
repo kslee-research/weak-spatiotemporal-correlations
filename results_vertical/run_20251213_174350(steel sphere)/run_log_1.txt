@@ -1,0 +1,19 @@
+[17:43:50] START analyze_vertical_vbridge.py (FAST fixed-r design)
+[17:43:50] OUT_DIR = C:\tail_analysis\results_vertical\run_20251213_174350
+[17:43:50] SIDE=left
+[17:43:50] R_TARGET_CM=1.2 (fixed)
+[17:43:50] ROI_WIDTH_PX=3 (ROI_HALF_WIDTH=1)
+[17:43:50] VSPAN_TOTAL_CM=0.7 (N_ABOVE=4, N_BELOW=4)
+[17:43:50] Y_HALF_HEIGHT_PX=1
+[17:43:50] DETREND=True, Z_SCORE=True
+[17:43:50] MAX_FRAMES=None
+[17:43:50] video_path = C:\tail_analysis\tails_pattern.mov
+[17:43:50] center_file = C:\tail_analysis\sphere_center_radius.npy
+[17:43:50] xc,yc,r_pix = 2968.082, 1139.071, 717.690
+[17:43:50] pix_per_cm = 239.229919
+[17:43:50] Extracting 8 vertical traces (single pass) ...
+[17:44:36] Done extraction. T=633 frames, fps=29.970
+[17:44:36] x_r_px=1963, y_positions_px(top->bottom)=[1055, 1076, 1097, 1118, 1160, 1181, 1202, 1223]
+[17:44:36] mean_offdiag_corr = 0.127182
+[17:44:38] DONE.
+[17:44:38] Output directory: C:\tail_analysis\results_vertical\run_20251213_174350

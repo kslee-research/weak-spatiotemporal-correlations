@@ -1,0 +1,45 @@
+[16:25:18] Video: C:\tail_analysis\tails_pattern.mov
+[16:25:18] Center: xc=2970.70, yc=1139.23, R_pix=717.29
+[16:25:18] pix_per_cm = 239.0981 (R_pix / 3.0cm)
+[16:25:19] Frame size: W=3840, H=2160
+[16:25:19] Control ROI (fixed): x=50.0px, y=1139.2px, valid=True, roi=(49, 1129, 52, 1150)
+[16:25:19] r[00]= 0.90cm -> x=  2038.2, y= 1139.2, valid=True
+[16:25:19] r[01]= 1.30cm -> x=  1942.6, y= 1139.2, valid=True
+[16:25:19] r[02]= 1.70cm -> x=  1846.9, y= 1139.2, valid=True
+[16:25:19] r[03]= 2.10cm -> x=  1751.3, y= 1139.2, valid=True
+[16:25:19] r[04]= 2.50cm -> x=  1655.7, y= 1139.2, valid=True
+[16:25:19] r[05]= 2.90cm -> x=  1560.0, y= 1139.2, valid=True
+[16:25:19] r[06]= 3.30cm -> x=  1464.4, y= 1139.2, valid=True
+[16:25:19] r[07]= 3.70cm -> x=  1368.7, y= 1139.2, valid=True
+[16:25:19] r[08]= 4.10cm -> x=  1273.1, y= 1139.2, valid=True
+[16:25:19] r[09]= 4.50cm -> x=  1177.5, y= 1139.2, valid=True
+[16:25:19] r[10]= 4.90cm -> x=  1081.8, y= 1139.2, valid=True
+[16:25:19] r[11]= 5.30cm -> x=   986.2, y= 1139.2, valid=True
+[16:25:19] r[12]= 5.70cm -> x=   890.5, y= 1139.2, valid=True
+[16:25:19] r[13]= 6.10cm -> x=   794.9, y= 1139.2, valid=True
+[16:25:19] r[14]= 6.50cm -> x=   699.3, y= 1139.2, valid=True
+[16:26:10] FPS=29.9700, frames=663, total_rois=16 (radial + control)
+[16:26:10] Autocorr lags: min_lag=3 (0.100s), max_lag=60 (2.002s)
+[16:26:10] r[00] r=0.90cm  alpha=+0.095  S=+0.6917
+[16:26:10] r[01] r=1.30cm  alpha=+0.004  S=+0.5959
+[16:26:10] r[02] r=1.70cm  alpha=+0.048  S=+0.5402
+[16:26:10] r[03] r=2.10cm  alpha=+0.120  S=+0.7009
+[16:26:10] r[04] r=2.50cm  alpha=-0.010  S=+0.6157
+[16:26:10] r[05] r=2.90cm  alpha=-0.094  S=+0.6515
+[16:26:10] r[06] r=3.30cm  alpha=+0.141  S=+0.5990
+[16:26:10] r[07] r=3.70cm  alpha=+0.160  S=+0.5215
+[16:26:10] r[08] r=4.10cm  alpha=+0.026  S=+0.6427
+[16:26:10] r[09] r=4.50cm  alpha=+0.025  S=+0.6902
+[16:26:10] r[10] r=4.90cm  alpha=+0.040  S=+0.6339
+[16:26:10] r[11] r=5.30cm  alpha=-0.026  S=+0.7627
+[16:26:10] r[12] r=5.70cm  alpha=-0.015  S=+0.5719
+[16:26:10] r[13] r=6.10cm  alpha=+0.044  S=+0.6100
+[16:26:10] r[14] r=6.50cm  alpha=+0.112  S=+0.7704
+[16:26:10] Saved: C:\tail_analysis\results_radial_autocorr\run_20251219_162518\radial_profile.csv
+[16:26:14] Saved: C:\tail_analysis\results_radial_autocorr\run_20251219_162518\S_vs_r.png
+[16:26:14] Saved: C:\tail_analysis\results_radial_autocorr\run_20251219_162518\S_vs_r.pdf
+[16:26:14] Saved: C:\tail_analysis\results_radial_autocorr\run_20251219_162518\autocorr_curves.png
+[16:26:14] Saved: C:\tail_analysis\results_radial_autocorr\run_20251219_162518\autocorr_curves.pdf
+[16:26:15] Saved: C:\tail_analysis\results_radial_autocorr\run_20251219_162518\autocorr_map.png
+[16:26:15] Saved: C:\tail_analysis\results_radial_autocorr\run_20251219_162518\autocorr_map.pdf
+[16:26:15] DONE.
