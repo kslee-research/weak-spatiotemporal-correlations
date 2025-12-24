@@ -8,7 +8,7 @@ The focus of this work is on phenomenological characterization and statistical a
 
 If you use this code or results, please cite:
 
-- K. Lee, *Onthe Origin of Observed Ripple-Like Patterns Surrounding a
+- K. Lee, *On the Origin of Observed Ripple-Like Patterns Surrounding a
 Spherical Object*, Zenodo (2025).  
   DOI: 
 
