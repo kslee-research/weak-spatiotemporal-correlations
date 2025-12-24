@@ -10,6 +10,6 @@ If you use this code or results, please cite:
 
 - K. Lee, *On the Origin of Observed Ripple-Like Patterns Surrounding a
 Spherical Object*, Zenodo (2025).  
-  DOI: 
+  DOI: https://doi.org/10.5281/zenodo.18043418
 
 This repository contains the analysis pipeline used in the above study.
