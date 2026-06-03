@@ -1,0 +1,26 @@
+[10:42:37] Results root: C:\tail_analysis\results_radial_autocorr_spatial_extension
+[10:42:37] Found center-ROI run folders: 4
+[10:42:37]   - C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_103710_video01_target10cm
+[10:42:37]   - C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_103837_video02_target30cm
+[10:42:37]   - C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_104003_video03_target60cm
+[10:42:37]   - C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_104126_video04_target90cm
+[10:42:37] Read 1 profile rows and 61 curve rows from run_20260603_103710_video01_target10cm
+[10:42:37] Read 1 profile rows and 61 curve rows from run_20260603_103837_video02_target30cm
+[10:42:37] Read 1 profile rows and 61 curve rows from run_20260603_104003_video03_target60cm
+[10:42:37] Read 1 profile rows and 61 curve rows from run_20260603_104126_video04_target90cm
+[10:42:37] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_104237\combined_solid_center_profile.csv
+[10:42:37] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_104237\combined_solid_center_autocorr_curves.csv
+[10:42:37] Combined target-distance points: 4
+[10:42:37] Global r range: 10.000 cm to 90.000 cm
+[10:42:37] Persistence duration range: +0.667333 to +1.001000 sec
+[10:42:37] S_pos_area range: +0.27858410 to +0.31795542
+[10:42:37] S_peak reference range: +0.65971301 to +0.74172425
+[10:42:38] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_104237\combined_solid_autocorr_curves_by_distance.png
+[10:42:38] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_104237\combined_solid_autocorr_curves_by_distance.pdf
+[10:42:39] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_104237\combined_solid_persistence_duration_vs_distance.png
+[10:42:39] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_104237\combined_solid_persistence_duration_vs_distance.pdf
+[10:42:39] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_104237\combined_solid_S_pos_area_vs_distance.png
+[10:42:39] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_104237\combined_solid_S_pos_area_vs_distance.pdf
+[10:42:40] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_104237\combined_solid_S_peak_reference_vs_distance.png
+[10:42:40] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_104237\combined_solid_S_peak_reference_vs_distance.pdf
+[10:42:40] DONE.

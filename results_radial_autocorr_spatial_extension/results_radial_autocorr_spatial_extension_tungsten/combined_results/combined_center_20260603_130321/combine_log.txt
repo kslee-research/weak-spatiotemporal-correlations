@@ -1,0 +1,26 @@
+[13:03:21] Results root: C:\tail_analysis\results_radial_autocorr_spatial_extension
+[13:03:21] Found center-ROI run folders: 4
+[13:03:21]   - C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_125818_video01_target10cm
+[13:03:21]   - C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_125946_video02_target30cm
+[13:03:21]   - C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_130056_video03_target60cm
+[13:03:21]   - C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_130215_video04_target90cm
+[13:03:21] Read 1 profile rows and 61 curve rows from run_20260603_125818_video01_target10cm
+[13:03:21] Read 1 profile rows and 61 curve rows from run_20260603_125946_video02_target30cm
+[13:03:21] Read 1 profile rows and 61 curve rows from run_20260603_130056_video03_target60cm
+[13:03:21] Read 1 profile rows and 61 curve rows from run_20260603_130215_video04_target90cm
+[13:03:21] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_130321\combined_tungsten_center_profile.csv
+[13:03:21] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_130321\combined_tungsten_center_autocorr_curves.csv
+[13:03:21] Combined target-distance points: 4
+[13:03:21] Global r range: 10.000 cm to 90.000 cm
+[13:03:21] Persistence duration range: +0.533867 to +1.935267 sec
+[13:03:21] S_pos_area range: +0.21050755 to +0.76945417
+[13:03:21] S_peak reference range: +0.63241791 to +0.84074379
+[13:03:22] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_130321\combined_tungsten_autocorr_curves_by_distance.png
+[13:03:22] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_130321\combined_tungsten_autocorr_curves_by_distance.pdf
+[13:03:22] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_130321\combined_tungsten_persistence_duration_vs_distance.png
+[13:03:22] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_130321\combined_tungsten_persistence_duration_vs_distance.pdf
+[13:03:23] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_130321\combined_tungsten_S_pos_area_vs_distance.png
+[13:03:23] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_130321\combined_tungsten_S_pos_area_vs_distance.pdf
+[13:03:23] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_130321\combined_tungsten_S_peak_reference_vs_distance.png
+[13:03:23] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\combined_results\combined_center_20260603_130321\combined_tungsten_S_peak_reference_vs_distance.pdf
+[13:03:23] DONE.

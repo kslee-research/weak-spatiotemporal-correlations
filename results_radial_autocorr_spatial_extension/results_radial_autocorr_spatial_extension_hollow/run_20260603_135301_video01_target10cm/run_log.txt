@@ -1,0 +1,22 @@
+[13:53:01] Video: C:\tail_analysis\tails_pattern.mov
+[13:53:01] video_number = 1
+[13:53:01] frame_width_cm = NaN (target-distance mode)
+[13:53:01] segment_start_cm = NaN (target-distance mode)
+[13:53:01] target center-ROI distance = 10.000000 cm
+[13:53:01] Frame size: W=3840, H=2160
+[13:53:01] Center ROI: x=1920.00, y=1080.00, roi=(1919, 1070, 1922, 1091), valid=True
+[13:53:59] FPS=29.9700, frames=618, total_rois=1
+[13:53:59] Autocorr lags: min_lag=3 (0.100s), max_lag=60 (2.002s), threshold=0.100
+[13:53:59] S_peak = +0.49360169
+[13:53:59] S_pos_area = +0.10704420
+[13:53:59] S_signed_area = +0.05551068
+[13:53:59] persistence_duration_sec = +0.26693333
+[13:53:59] last_positive_lag_sec = +0.33366667
+[13:53:59] first_positive_lag_sec = +0.10010000
+[13:53:59] mean_delayed_ac = +0.02868374
+[13:53:59] mean_positive_ac = +0.05531238
+[13:53:59] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_135301_video01_target10cm\radial_profile_spatial_extension.csv
+[13:53:59] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_135301_video01_target10cm\center_autocorr_curve.csv
+[13:54:02] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_135301_video01_target10cm\center_autocorr_curve.png
+[13:54:02] Saved: C:\tail_analysis\results_radial_autocorr_spatial_extension\run_20260603_135301_video01_target10cm\center_autocorr_curve.pdf
+[13:54:02] DONE.

@@ -1,0 +1,2 @@
+video_number,frame_width_cm,segment_start_cm,idx,r_local_cm,r_global_cm,x_center_px,y_center_px,valid,alpha_control,S_peak,S_pos_area,S_signed_area,S_mean_pos,S_mean_signed,persistence_duration_sec,last_positive_lag_sec,first_positive_lag_sec,mean_delayed_ac,mean_positive_ac,persistence_threshold,min_lag_sec,max_lag_sec
+4,nan,nan,0,90.000000,90.000000,1920.000000,1080.000000,1,nan,0.38609295,0.07699234,0.05034626,0.03978384,0.02601516,0.23356667,0.80080000,0.10010000,0.02601516,0.03978384,0.10000000,0.10010000,2.00200000
