@@ -79,8 +79,80 @@ def load_roi_info(path):
 
 
 def extract_roi_and_mask(stack, roi_info):
+    """Extract the analysis ROI and build a valid-mask from roi_mask_info.npy.
+
+    This version supports the newer ROI file created by
+    make_roi_center_opticalflow.py:
+      - exclude_roi: manually selected sphere + connector / shielding rectangle
+      - center: manually clicked sphere center
+      - edge_exclude_fraction: outer frame boundary exclusion fraction
+
+    Returned center_xy is expressed in the cropped/downscaled ROI coordinate
+    system and is used as the true sphere center for all radial calculations.
+    """
     T, H, W = stack.shape
 
+    # -------------------------------------------------------------
+    # New format: make_roi_center_opticalflow.py saves exclude_roi
+    # and center in ORIGINAL video coordinates. Since stack has
+    # already been downscaled, convert them by DOWNSCALE here.
+    # -------------------------------------------------------------
+    if "exclude_roi" in roi_info:
+        full_mask = np.ones((H, W), dtype=bool)
+
+        # 1) Exclude outer frame edges.
+        edge_frac = float(roi_info.get("edge_exclude_fraction", 0.10))
+        edge_x = int(W * edge_frac)
+        edge_y = int(H * edge_frac)
+
+        if edge_x > 0:
+            full_mask[:, :edge_x] = False
+            full_mask[:, W - edge_x:] = False
+        if edge_y > 0:
+            full_mask[:edge_y, :] = False
+            full_mask[H - edge_y:, :] = False
+
+        # 2) Exclude the manually selected sphere/shield/connector rectangle.
+        ex = roi_info["exclude_roi"]
+        ex_x1 = int(ex["x"] * DOWNSCALE)
+        ex_y1 = int(ex["y"] * DOWNSCALE)
+        ex_x2 = int((ex["x"] + ex["w"]) * DOWNSCALE)
+        ex_y2 = int((ex["y"] + ex["h"]) * DOWNSCALE)
+
+        ex_x1 = max(0, min(W, ex_x1))
+        ex_x2 = max(0, min(W, ex_x2))
+        ex_y1 = max(0, min(H, ex_y1))
+        ex_y2 = max(0, min(H, ex_y2))
+        full_mask[ex_y1:ex_y2, ex_x1:ex_x2] = False
+
+        # 3) Crop to the valid inner frame boundary for compact analysis.
+        x1 = edge_x
+        y1 = edge_y
+        x2 = W - edge_x
+        y2 = H - edge_y
+
+        x1 = max(0, min(W - 1, x1))
+        x2 = max(x1 + 1, min(W, x2))
+        y1 = max(0, min(H - 1, y1))
+        y2 = max(y1 + 1, min(H, y2))
+
+        roi_stack = stack[:, y1:y2, x1:x2]
+        roi_mask = full_mask[y1:y2, x1:x2]
+
+        # 4) True sphere center in cropped/downscaled ROI coordinates.
+        if "center" in roi_info:
+            cx_full = float(roi_info["center"]["x"]) * DOWNSCALE
+            cy_full = float(roi_info["center"]["y"]) * DOWNSCALE
+            center_xy = (cx_full - x1, cy_full - y1)
+        else:
+            center_xy = (roi_stack.shape[2] / 2, roi_stack.shape[1] / 2)
+
+        return roi_stack, roi_mask, (x1, y1, x2, y2), center_xy
+
+    # -------------------------------------------------------------
+    # Backward-compatible path for older ROI files that directly
+    # contain mask / roi_mask / valid_mask fields.
+    # -------------------------------------------------------------
     mask = None
     for key in ["mask", "roi_mask", "valid_mask"]:
         if key in roi_info:
@@ -122,8 +194,14 @@ def extract_roi_and_mask(stack, roi_info):
         ).astype(bool)
         roi_mask = mask_resized[y1:y2, x1:x2]
 
-    return roi_stack, roi_mask, (x1, y1, x2, y2)
+    if "center" in roi_info and isinstance(roi_info["center"], dict):
+        cx_full = float(roi_info["center"]["x"]) * DOWNSCALE
+        cy_full = float(roi_info["center"]["y"]) * DOWNSCALE
+        center_xy = (cx_full - x1, cy_full - y1)
+    else:
+        center_xy = (roi_stack.shape[2] / 2, roi_stack.shape[1] / 2)
 
+    return roi_stack, roi_mask, (x1, y1, x2, y2), center_xy
 
 def norm_corr(a, b):
     a = a.astype(np.float32)
@@ -194,7 +272,7 @@ def find_best_match(frame1, frame2, x, y, patch_size, search_radius, valid_mask)
     return best_dx, best_dy, best_corr
 
 
-def get_spatial_sector(x, y, W, H):
+def get_spatial_sector(x, y, W, H, center_xy=None):
     """
     Assign a patch position to one of six frame sectors:
       left_upper, left_middle, left_lower,
@@ -203,7 +281,8 @@ def get_spatial_sector(x, y, W, H):
     The split is done inside the downscaled ROI coordinate system.
     The x split is the sphere/ROI center. The y split is by thirds.
     """
-    col = "left" if x < W / 2 else "right"
+    cx = center_xy[0] if center_xy is not None else W / 2
+    col = "left" if x < cx else "right"
 
     if y < H / 3:
         row = "upper"
@@ -348,11 +427,11 @@ def save_sector_bar_plot(sector_summary, outpath, title):
     plt.close()
 
 
-def save_sector_map_plot(results, mask, outpath, title):
+def save_sector_map_plot(results, mask, outpath, title, center_xy=None):
     """Draw inward/outward vectors with six-sector boundaries and labels."""
     H, W = mask.shape
-    cx = W / 2
-    cy = H / 2
+    cx = center_xy[0] if center_xy is not None else W / 2
+    cy = center_xy[1] if center_xy is not None else H / 2
 
     fig, ax = plt.subplots(figsize=(9, 8))
 
@@ -410,17 +489,18 @@ def save_sector_map_plot(results, mask, outpath, title):
     ax.set_xlabel("x from sphere center [downscaled ROI px]")
     ax.set_ylabel("y from sphere center [downscaled ROI px]")
     ax.set_aspect("equal", adjustable="box")
-    ax.invert_yaxis()
+    # Display orientation correction: keep the manuscript figure orientation without y-axis inversion.
+    # ax.invert_yaxis()
     margin = 20
     ax.set_xlim(-cx - margin, cx + margin)
-    ax.set_ylim(cy + margin, -cy - margin)
+    ax.set_ylim(-cy - margin, cy + margin)
     ax.legend(loc="upper right")
     plt.tight_layout()
     plt.savefig(outpath, dpi=240)
     plt.close()
 
 
-def analyze_drift(stack, mask):
+def analyze_drift(stack, mask, center_xy=None):
     T, H, W = stack.shape
 
     results = []
@@ -461,9 +541,9 @@ def analyze_drift(stack, mask):
 
             dx, dy, corr = m
 
-            # ROI center 기준 inward/outward 계산
-            cx = W / 2
-            cy = H / 2
+            # True sphere center 기준 inward/outward 계산
+            cx = center_xy[0] if center_xy is not None else W / 2
+            cy = center_xy[1] if center_xy is not None else H / 2
 
             rx = x - cx
             ry = y - cy
@@ -501,7 +581,7 @@ def analyze_drift(stack, mask):
 
             radial_aligned = direction_label in ["inward", "outward"]
 
-            sector = get_spatial_sector(x, y, W, H)
+            sector = get_spatial_sector(x, y, W, H, center_xy=center_xy)
 
             results.append({
                 "t0": t0,
@@ -549,7 +629,9 @@ def save_vector_plot(results, mask, outpath, title):
         plt.quiver(xs, ys, dxs, dys, cs, angles="xy", scale_units="xy", scale=1)
         plt.colorbar(label="correlation")
 
-    plt.gca().invert_yaxis()
+    # Display orientation correction: do not invert the y-axis here.
+    # This keeps the saved visualization vertically consistent with the manuscript figures.
+    # plt.gca().invert_yaxis()
     plt.title(title)
     plt.axis("equal")
     plt.tight_layout()
@@ -558,7 +640,7 @@ def save_vector_plot(results, mask, outpath, title):
 
 
 
-def save_sphere_centered_vector_plot(results, mask, outpath, title):
+def save_sphere_centered_vector_plot(results, mask, outpath, title, center_xy=None):
     """
     Same drift results, but drawn in a sphere/ROI-centered coordinate system.
     The analysis itself is unchanged:
@@ -568,8 +650,8 @@ def save_sphere_centered_vector_plot(results, mask, outpath, title):
     This plot is intended only for easier visual interpretation around the sphere.
     """
     H, W = mask.shape
-    cx = W / 2
-    cy = H / 2
+    cx = center_xy[0] if center_xy is not None else W / 2
+    cy = center_xy[1] if center_xy is not None else H / 2
 
     fig, ax = plt.subplots(figsize=(9, 8))
 
@@ -663,12 +745,13 @@ def save_sphere_centered_vector_plot(results, mask, outpath, title):
     ax.axvline(0, color="black", alpha=0.15, linewidth=0.8)
     ax.set_aspect("equal", adjustable="box")
 
-    # Match image-style y direction: positive down, same as video coordinates.
-    ax.invert_yaxis()
+    # Display orientation correction: keep the manuscript figure orientation without y-axis inversion.
+    # The quantitative analysis is unchanged; this affects visualization only.
+    # ax.invert_yaxis()
 
     margin = 20
     ax.set_xlim(-cx - margin, cx + margin)
-    ax.set_ylim(cy + margin, -cy - margin)
+    ax.set_ylim(-cy - margin, cy + margin)
 
     # Direction legend as text
     ax.text(
@@ -685,7 +768,7 @@ def save_sphere_centered_vector_plot(results, mask, outpath, title):
 
 
 
-def save_inward_outward_radial_vector_plot(results, mask, outpath, title):
+def save_inward_outward_radial_vector_plot(results, mask, outpath, title, center_xy=None):
     """
     Direction-specific radial drift visualization.
       - blue arrows: inward drift toward the sphere/ROI center
@@ -695,8 +778,8 @@ def save_inward_outward_radial_vector_plot(results, mask, outpath, title):
       - black +: sphere/ROI center
     """
     H, W = mask.shape
-    cx = W / 2
-    cy = H / 2
+    cx = center_xy[0] if center_xy is not None else W / 2
+    cy = center_xy[1] if center_xy is not None else H / 2
 
     fig, ax = plt.subplots(figsize=(9, 8))
 
@@ -769,11 +852,13 @@ def save_inward_outward_radial_vector_plot(results, mask, outpath, title):
     ax.axhline(0, color="black", alpha=0.15, linewidth=0.8)
     ax.axvline(0, color="black", alpha=0.15, linewidth=0.8)
     ax.set_aspect("equal", adjustable="box")
-    ax.invert_yaxis()
+    # Display orientation correction: keep the manuscript figure orientation without y-axis inversion.
+    # The quantitative analysis is unchanged; this affects visualization only.
+    # ax.invert_yaxis()
 
     margin = 20
     ax.set_xlim(-cx - margin, cx + margin)
-    ax.set_ylim(cy + margin, -cy - margin)
+    ax.set_ylim(-cy - margin, cy + margin)
     ax.legend(loc="upper right")
 
     ax.text(
@@ -979,12 +1064,12 @@ def relabel_results_for_center(results, W, H, cx, cy):
         rr["direction_label"] = direction_label
         rr["radial_aligned"] = direction_label in ["inward", "outward"]
         # Sector is also recomputed around the chosen center; rows still use ROI thirds.
-        rr["sector"] = get_spatial_sector(r["x"], r["y"], W, H)
+        rr["sector"] = get_spatial_sector(r["x"], r["y"], W, H, center_xy=(cx, cy))
         out.append(rr)
     return out
 
 
-def summarize_radial_spatial_organization(radial_results, mask, center_label="sphere_center"):
+def summarize_radial_spatial_organization(radial_results, mask, center_label="sphere_center", center_xy=None):
     """Spatial organization summary for radially aligned vectors.
 
     High mean_radiality alone is not diagnostic. A random/noise cluster can have
@@ -996,7 +1081,7 @@ def summarize_radial_spatial_organization(radial_results, mask, center_label="sp
 
     counts = {s: 0 for s in SECTOR_ORDER}
     for r in radial_results:
-        counts[r.get("sector", get_spatial_sector(r["x"], r["y"], W, H))] += 1
+        counts[r.get("sector", get_spatial_sector(r["x"], r["y"], W, H, center_xy=center_xy))] += 1
 
     sector_counts = [counts[s] for s in SECTOR_ORDER]
     left_total = counts["left_upper"] + counts["left_middle"] + counts["left_lower"]
@@ -1128,7 +1213,7 @@ def save_radial_shell_coverage_plot(radial_results, outpath, title):
 
 
 
-def summarize_virtual_centers(results, mask):
+def summarize_virtual_centers(results, mask, center_xy=None):
     """Compare sphere center against arbitrary virtual centers.
 
     If noise obtains high radiality for any arbitrary center, then mean_radiality
@@ -1136,8 +1221,8 @@ def summarize_virtual_centers(results, mask):
     balanced radial organization around the true sphere center.
     """
     H, W = mask.shape
-    base_cx = W / 2
-    base_cy = H / 2
+    base_cx = center_xy[0] if center_xy is not None else W / 2
+    base_cy = center_xy[1] if center_xy is not None else H / 2
     rows = []
     for dx0, dy0 in VIRTUAL_CENTER_OFFSETS_PX:
         cx = base_cx + dx0
@@ -1145,7 +1230,7 @@ def summarize_virtual_centers(results, mask):
         relabeled = relabel_results_for_center(results, W, H, cx, cy)
         radial = [r for r in relabeled if r.get("radial_aligned", False)]
         base = summarize_subset(radial)
-        spatial = summarize_radial_spatial_organization(radial, mask, center_label=f"offset_{dx0}_{dy0}")
+        spatial = summarize_radial_spatial_organization(radial, mask, center_label=f"offset_{dx0}_{dy0}", center_xy=(cx, cy))
         rows.append({
             "center_offset_x": dx0,
             "center_offset_y": dy0,
@@ -1208,12 +1293,13 @@ def main():
     roi_info = load_roi_info(roi_path)
 
     print("[3] Applying ROI/mask...")
-    roi_stack, roi_mask, roi_box = extract_roi_and_mask(stack, roi_info)
+    roi_stack, roi_mask, roi_box, center_xy = extract_roi_and_mask(stack, roi_info)
     print("ROI stack:", roi_stack.shape)
     print("ROI mask valid:", np.mean(roi_mask))
+    print("Sphere center in ROI:", center_xy)
 
     print("[4] Local patch drift analysis...")
-    results = analyze_drift(roi_stack, roi_mask)
+    results = analyze_drift(roi_stack, roi_mask, center_xy=center_xy)
 
     print("[5] Saving outputs...")
     save_csv(results, outdir / "patch_drift_table.csv")
@@ -1231,14 +1317,16 @@ def main():
         radial_results,
         roi_mask,
         outdir / "sphere_centered_patch_drift_vectors.png",
-        f"{kind} {video_no} - Sphere-Centered Patch Drift Vectors"
+        f"{kind} {video_no} - Sphere-Centered Patch Drift Vectors",
+        center_xy=center_xy
     )
 
     save_inward_outward_radial_vector_plot(
         radial_results,
         roi_mask,
         outdir / "inward_outward_radial_drift.png",
-        f"{kind} {video_no} - Inward/Outward Radial Patch Drift"
+        f"{kind} {video_no} - Inward/Outward Radial Patch Drift",
+        center_xy=center_xy
     )
 
     save_radial_hist(
@@ -1265,13 +1353,15 @@ def main():
         radial_results,
         roi_mask,
         outdir / "six_sector_inward_outward_map.png",
-        f"{kind} {video_no} - Six-Sector Inward/Outward Map"
+        f"{kind} {video_no} - Six-Sector Inward/Outward Map",
+        center_xy=center_xy
     )
 
     spatial_organization = summarize_radial_spatial_organization(
         radial_results,
         roi_mask,
-        center_label="sphere_or_virtual_center"
+        center_label="sphere_or_virtual_center",
+        center_xy=center_xy
     )
     save_spatial_organization_csv(
         spatial_organization,
@@ -1288,7 +1378,7 @@ def main():
         f"{kind} {video_no} - Radial Shell Coverage"
     )
 
-    virtual_center_control = summarize_virtual_centers(results, roi_mask)
+    virtual_center_control = summarize_virtual_centers(results, roi_mask, center_xy=center_xy)
     save_virtual_center_control_csv(
         virtual_center_control,
         outdir / "virtual_center_control_summary.csv"
@@ -1326,6 +1416,7 @@ def main():
         "NEAR_RING_MIN_PX": NEAR_RING_MIN_PX,
         "NEAR_RING_MAX_PX": NEAR_RING_MAX_PX,
         "roi_box_after_downscale": roi_box,
+        "sphere_center_xy_in_downscaled_roi": [float(center_xy[0]), float(center_xy[1])],
         "summary_all_vectors": summary,
         "summary_radial_aligned_only": radial_summary,
         "sector_summary": sector_summary,
