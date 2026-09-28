@@ -1,0 +1,22 @@
+Extended Paper 4 temporal-persistence comparison
+================================================
+
+Long-lag window: 0.50-2.00 s
+Decay definition: first lag >= 0.10 s where ACF <= 0.10
+
+Steel (n=4 runs)
+----------------------------------------
+Run mean S_peak: 0.65747990 ± 0.00699763 SD
+Within-run SD across 9 patches: 0.07372861 ± 0.02555247 SD
+Long-lag positive AUC: 0.08487838 ± 0.01910887 SD
+Long-lag signed AUC: 0.04291846 ± 0.02587918 SD
+Decay time to ACF<=0.10: 0.73742650 ± 0.08114355 SD
+
+Tungsten (n=4 runs)
+----------------------------------------
+Run mean S_peak: 0.66061813 ± 0.04734342 SD
+Within-run SD across 9 patches: 0.06366821 ± 0.01270949 SD
+Long-lag positive AUC: 0.15218299 ± 0.08434297 SD
+Long-lag signed AUC: 0.11645976 ± 0.09737478 SD
+Decay time to ACF<=0.10: 0.75869445 ± 0.06191317 SD
+

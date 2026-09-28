@@ -1,0 +1,13 @@
+[14:32:51] Found 8 run folder(s).
+[14:32:51] Loaded steel: steel_20260923_123138
+[14:32:51] Loaded steel: steel_20260923_123623
+[14:32:51] Loaded steel: steel_20260923_123807
+[14:32:51] Loaded steel: steel_20260923_124107
+[14:32:51] Loaded tungsten: tungsten_20260923_132449
+[14:32:51] Loaded tungsten: tungsten_20260923_132557
+[14:32:51] Loaded tungsten: tungsten_20260923_132737
+[14:32:51] Loaded tungsten: tungsten_20260923_132842
+[14:32:51] steel: 4 run(s)
+[14:32:51] tungsten: 4 run(s)
+[14:32:55] Saved extended temporal-shape comparison.
+[14:32:55] DONE.
