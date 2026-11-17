@@ -1,0 +1,42 @@
+[22:31:36] Run ID: tungsten_20261115_223136
+[22:31:36] Video: C:\tail_analysis\tails_pattern.mov
+[22:31:36] Sphere type: tungsten
+[22:31:36] Sphere diameter: 5.990000 cm
+[22:31:36] Sphere mass: 2.042000 kg
+[22:31:37] Frame size: W=3840, H=2160
+[22:31:37] Frame center: x=1920.000, y=1080.000
+[22:31:37] 3x3 spacing: dx=307.200px (0.0800W), dy=475.200px (0.2200H)
+[22:31:37] P1: row=0 col=0 x=1612.80 y=604.80 valid=True roi=(1612, 595, 1615, 616)
+[22:31:37] P2: row=0 col=1 x=1920.00 y=604.80 valid=True roi=(1919, 595, 1922, 616)
+[22:31:37] P3: row=0 col=2 x=2227.20 y=604.80 valid=True roi=(2226, 595, 2229, 616)
+[22:31:37] P4: row=1 col=0 x=1612.80 y=1080.00 valid=True roi=(1612, 1070, 1615, 1091)
+[22:31:37] P5: row=1 col=1 x=1920.00 y=1080.00 valid=True roi=(1919, 1070, 1922, 1091)
+[22:31:37] P6: row=1 col=2 x=2227.20 y=1080.00 valid=True roi=(2226, 1070, 2229, 1091)
+[22:31:37] P7: row=2 col=0 x=1612.80 y=1555.20 valid=True roi=(1612, 1545, 1615, 1566)
+[22:31:37] P8: row=2 col=1 x=1920.00 y=1555.20 valid=True roi=(1919, 1545, 1922, 1566)
+[22:31:37] P9: row=2 col=2 x=2227.20 y=1555.20 valid=True roi=(2226, 1545, 2229, 1566)
+[22:31:38] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\grid_preview.png
+[22:31:38] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\grid_preview.pdf
+[22:31:38] Control ROI: x=50.0px, y=1080.0px, valid=True, roi=(49, 1070, 52, 1091)
+[22:32:10] FPS=29.970030, frames=533, total_rois=10 (9 patches + control)
+[22:32:10] Autocorr lags: min_lag=3 (0.100s), max_lag=60 (2.002s)
+[22:32:10] P1: alpha=+0.619092 S_peak=+0.620210 AUC+=+0.226581 AUC_signed=+0.220705 decay_t=1.4681s
+[22:32:10] P2: alpha=+0.746523 S_peak=+0.629570 AUC+=+0.306605 AUC_signed=+0.306493 decay_t=1.7017s
+[22:32:10] P3: alpha=+0.761609 S_peak=+0.608555 AUC+=+0.301804 AUC_signed=+0.301804 decay_t=nans
+[22:32:10] P4: alpha=+0.745751 S_peak=+0.662516 AUC+=+0.221224 AUC_signed=+0.221224 decay_t=1.6016s
+[22:32:10] P5: alpha=+0.753959 S_peak=+0.666812 AUC+=+0.287860 AUC_signed=+0.287860 decay_t=1.7351s
+[22:32:10] P6: alpha=+0.719131 S_peak=+0.514797 AUC+=+0.224253 AUC_signed=+0.224253 decay_t=0.4338s
+[22:32:10] P7: alpha=+0.757070 S_peak=+0.687724 AUC+=+0.318815 AUC_signed=+0.318815 decay_t=nans
+[22:32:10] P8: alpha=+0.782172 S_peak=+0.660768 AUC+=+0.358416 AUC_signed=+0.358416 decay_t=nans
+[22:32:10] P9: alpha=+0.726314 S_peak=+0.684884 AUC+=+0.358239 AUC_signed=+0.358239 decay_t=1.8018s
+[22:32:10] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\run_metadata.json
+[22:32:10] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\spatial_profile.csv
+[22:32:10] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\autocorr_curves.csv
+[22:32:10] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\temporal_metrics.csv
+[22:32:11] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\persistence_map.png
+[22:32:11] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\persistence_map.pdf
+[22:32:11] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\autocorr_curves.png
+[22:32:11] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\autocorr_curves.pdf
+[22:32:12] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\autocorr_map.png
+[22:32:12] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\tungsten_20261115_223136\autocorr_map.pdf
+[22:32:12] DONE.
