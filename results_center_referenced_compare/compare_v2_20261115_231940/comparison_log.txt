@@ -1,0 +1,18 @@
+[23:19:40] Found 12 run folder(s).
+[23:19:40] Loaded steel_large: steel_large_20261115_220543
+[23:19:40] Loaded steel_large: steel_large_20261115_220931
+[23:19:40] Loaded steel_large: steel_large_20261115_221109
+[23:19:40] Loaded steel_large: steel_large_20261115_221241
+[23:19:40] Loaded steel_small: steel_small_20261115_225322
+[23:19:40] Loaded steel_small: steel_small_20261115_225515
+[23:19:40] Loaded steel_small: steel_small_20261115_225717
+[23:19:40] Loaded steel_small: steel_small_20261115_225907
+[23:19:40] Loaded tungsten: tungsten_20261115_222949
+[23:19:40] Loaded tungsten: tungsten_20261115_223136
+[23:19:40] Loaded tungsten: tungsten_20261115_223256
+[23:19:40] Loaded tungsten: tungsten_20261115_223430
+[23:19:40] steel_small: 4 run(s)
+[23:19:40] tungsten: 4 run(s)
+[23:19:40] steel_large: 4 run(s)
+[23:19:43] Saved extended temporal-shape comparison.
+[23:19:43] DONE.
