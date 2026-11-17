@@ -56,10 +56,11 @@ RESULT_ROOT = "results_center_referenced_radial_autocorr"
 # Columns are shifted by +/- GRID_DX_FRAC * frame width.
 # Rows are shifted by +/- GRID_DY_FRAC * frame height.
 #
-# Initial defaults chosen to cover a broad central field while avoiding
-# the extreme frame edges. Adjust only if the preview shows overlap with
-# the shield/object in a particular acquisition layout.
-GRID_DX_FRAC = 0.16
+# Horizontal spacing reduced from 0.16 to 0.08 after checking the
+# 2026-11-15 preview: the original right column overlapped the shield.
+# Keep P5 at the exact frame center and use identical settings in all runs.
+# Verify all nine patches avoid the shield in every grid_preview image.
+GRID_DX_FRAC = 0.08  # keep right-hand patches clear of the shielded sphere
 GRID_DY_FRAC = 0.22
 
 # Same patch concept as the previous persistence analysis.
@@ -122,20 +123,25 @@ def find_video(base_dir: str):
     return None
 
 
+SPHERE_OPTIONS = {
+    "steel_small": (5.98, 0.884),
+    "tungsten": (5.99, 2.042),
+    "steel_large": (8.00, 2.080),
+}
+
+
 def canonical_sphere_type(raw: str):
     s = raw.strip().lower()
     aliases = {
-        "s": "steel",
-        "steel": "steel",
-        "stainless": "steel",
-        "stainless steel": "steel",
-        "ss": "steel",
-        "t": "tungsten",
-        "w": "tungsten",
-        "tungsten": "tungsten",
-        "wolfram": "tungsten",
+        "1": "steel_small", "steel_small": "steel_small", "ss60": "steel_small",
+        "small": "steel_small", "s60": "steel_small",
+        "2": "tungsten", "tungsten": "tungsten", "w": "tungsten", "t": "tungsten",
+        "3": "steel_large", "steel_large": "steel_large", "ss80": "steel_large",
+        "large": "steel_large", "s80": "steel_large",
     }
-    return aliases.get(s, s)
+    if s not in aliases:
+        raise ValueError("Choose 1/2/3, steel_small, tungsten, or steel_large; generic 'steel' is ambiguous.")
+    return aliases[s]
 
 
 def safe_slug(text: str):
@@ -159,23 +165,28 @@ def prompt_positive_float(prompt_text: str, allow_blank=False):
 
 
 def collect_run_metadata():
-    print("\n=== Paper 4 image-centered 3x3 metadata ===")
-    sphere_type = canonical_sphere_type(
-        input("[INPUT] Sphere type [steel/tungsten]: ")
-    )
-    sphere_type = safe_slug(sphere_type)
+    print("\n=== Paper 4 V2 three-sphere image-centered 3x3 metadata ===")
+    print("  1 = steel_small (approx. 60 mm, 0.884 kg)")
+    print("  2 = tungsten (approx. 60 mm, 2.042 kg)")
+    print("  3 = steel_large (approx. 80 mm, 2.080 kg)")
+    while True:
+        try:
+            sphere_type = canonical_sphere_type(input("[INPUT] Sphere [1/2/3]: "))
+            break
+        except ValueError as exc:
+            print(f"[ERROR] {exc}")
 
-    # Kept for documentation only; not used for spatial calibration.
+    # These measured values are recorded as metadata only, never used for ROI calibration.
+    default_diameter, default_mass = SPHERE_OPTIONS[sphere_type]
     diameter_cm = prompt_positive_float(
-        "[INPUT] Sphere diameter in cm (optional; press Enter to skip): ",
-        allow_blank=True,
+        f"[INPUT] Measured diameter in cm [Enter={default_diameter}]: ", allow_blank=True
     )
     mass_kg = prompt_positive_float(
-        "[INPUT] Measured sphere mass in kg (optional; press Enter to skip): ",
-        allow_blank=True,
+        f"[INPUT] Measured mass in kg [Enter={default_mass}]: ", allow_blank=True
     )
-
-    return sphere_type, diameter_cm, mass_kg
+    return (sphere_type,
+            default_diameter if diameter_cm is None else diameter_cm,
+            default_mass if mass_kg is None else mass_kg)
 
 
 def roi_from_center(xc, yc, w, h):

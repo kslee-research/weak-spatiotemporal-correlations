@@ -43,7 +43,12 @@ OUTPUT_ROOT = os.path.join(BASE_DIR, "results_center_referenced_compare")
 SPATIAL_FILE = "spatial_profile.csv"
 ACF_FILE = "autocorr_curves.csv"
 
-TARGET_SPHERES = ("steel", "tungsten")
+TARGET_SPHERES = ("steel_small", "tungsten", "steel_large")
+SPHERE_LABELS = {
+    "steel_small": "Steel 60 mm (0.884 kg)",
+    "tungsten": "Tungsten 60 mm (2.042 kg)",
+    "steel_large": "Steel 80 mm (2.080 kg)",
+}
 PATCHES = tuple(f"P{i}" for i in range(1, 10))
 
 LONG_LAG_START_SEC = 0.50
@@ -56,12 +61,12 @@ DECAY_THRESHOLD = 0.10
 def canonical_sphere_type(raw):
     s = (raw or "").strip().lower()
     aliases = {
-        "s": "steel", "steel": "steel", "stainless": "steel",
-        "stainless steel": "steel", "ss": "steel",
-        "t": "tungsten", "w": "tungsten",
-        "tungsten": "tungsten", "wolfram": "tungsten",
+        "steel_small": "steel_small", "ss60": "steel_small",
+        "tungsten": "tungsten", "w": "tungsten",
+        "steel_large": "steel_large", "ss80": "steel_large",
     }
-    return aliases.get(s, s)
+    # Deliberately do not map historical generic 'steel' into either group.
+    return aliases.get(s, "")
 
 
 def to_float(v):
@@ -260,7 +265,8 @@ def main():
             by_sphere[r["sphere_type"]].append(r)
 
         for s in TARGET_SPHERES:
-            logw(f"{s}: {len(by_sphere[s])} run(s)")
+            n = len(by_sphere[s])
+            logw(f"{s}: {n} run(s)" + (" [WARNING: planned 4 runs]" if n != 4 else ""))
 
         # --------------------------------------------------------
         # Run-level summary
@@ -444,13 +450,11 @@ def main():
 
         acf_rows = []
         for i, t in enumerate(tau_common):
-            acf_rows.append({
-                "lag_sec": fmt(t, 8),
-                "steel_mean_acf": fmt(ensemble_curves["steel"][i]),
-                "steel_sd_acf": fmt(ensemble_sd["steel"][i]),
-                "tungsten_mean_acf": fmt(ensemble_curves["tungsten"][i]),
-                "tungsten_sd_acf": fmt(ensemble_sd["tungsten"][i]),
-            })
+            row = {"lag_sec": fmt(t, 8)}
+            for s in TARGET_SPHERES:
+                row[f"{s}_mean_acf"] = fmt(ensemble_curves[s][i])
+                row[f"{s}_sd_acf"] = fmt(ensemble_sd[s][i])
+            acf_rows.append(row)
 
         write_csv(
             os.path.join(out_dir, "ensemble_mean_autocorrelation.csv"),
@@ -468,7 +472,7 @@ def main():
             vals = np.asarray(metrics_by_sphere[s]["mean_S"], dtype=float)
             vals = vals[np.isfinite(vals)]
             jit = np.linspace(-0.08, 0.08, max(len(vals), 1))[:len(vals)]
-            plt.scatter(np.full(len(vals), xi) + jit, vals, s=45, label=f"{s.capitalize()} runs")
+            plt.scatter(np.full(len(vals), xi) + jit, vals, s=45, label=f"{SPHERE_LABELS[s]} runs")
             st = material_stats[s]["mean_S"]
             if finite(st["mean"]):
                 plt.errorbar(
@@ -476,7 +480,7 @@ def main():
                     yerr=[0 if not finite(st["sd"]) else st["sd"]],
                     marker="D", capsize=6, linewidth=1.8, markersize=7
                 )
-        plt.xticks([0, 1], ["Steel", "Tungsten"])
+        plt.xticks(range(len(TARGET_SPHERES)), [SPHERE_LABELS[s] for s in TARGET_SPHERES], rotation=12, ha="right")
         plt.ylabel("Run mean S_peak")
         plt.title("Run-level ensemble persistence")
         plt.grid(True, axis="y", alpha=0.3)
@@ -499,7 +503,7 @@ def main():
                     yerr=[0 if not finite(st["sd"]) else st["sd"]],
                     marker="D", capsize=6, linewidth=1.8, markersize=7
                 )
-        plt.xticks([0, 1], ["Steel", "Tungsten"])
+        plt.xticks(range(len(TARGET_SPHERES)), [SPHERE_LABELS[s] for s in TARGET_SPHERES], rotation=12, ha="right")
         plt.ylabel("Within-run SD of 9 patch S_peak")
         plt.title("Spatial variability within each run")
         plt.grid(True, axis="y", alpha=0.3)
@@ -522,7 +526,7 @@ def main():
                     yerr=[0 if not finite(st["sd"]) else st["sd"]],
                     marker="D", capsize=6, linewidth=1.8, markersize=7
                 )
-        plt.xticks([0, 1], ["Steel", "Tungsten"])
+        plt.xticks(range(len(TARGET_SPHERES)), [SPHERE_LABELS[s] for s in TARGET_SPHERES], rotation=12, ha="right")
         plt.ylabel("Mean positive ACF area (0.5-2.0 s)")
         plt.title("Long-lag positive persistence")
         plt.grid(True, axis="y", alpha=0.3)
@@ -545,7 +549,7 @@ def main():
                     yerr=[0 if not finite(st["sd"]) else st["sd"]],
                     marker="D", capsize=6, linewidth=1.8, markersize=7
                 )
-        plt.xticks([0, 1], ["Steel", "Tungsten"])
+        plt.xticks(range(len(TARGET_SPHERES)), [SPHERE_LABELS[s] for s in TARGET_SPHERES], rotation=12, ha="right")
         plt.ylabel(f"Mean decay time to ACF ≤ {DECAY_THRESHOLD:.2f} (s)")
         plt.title("Autocorrelation decay time")
         plt.grid(True, axis="y", alpha=0.3)
@@ -559,7 +563,7 @@ def main():
         for s in TARGET_SPHERES:
             m = ensemble_curves[s]
             sd = ensemble_sd[s]
-            plt.plot(tau_common, m, linewidth=2.0, label=s.capitalize())
+            plt.plot(tau_common, m, linewidth=2.0, label=SPHERE_LABELS[s])
             plt.fill_between(tau_common, m - sd, m + sd, alpha=0.16)
         plt.axvline(LONG_LAG_START_SEC, linestyle="--", linewidth=1)
         plt.axhline(DECAY_THRESHOLD, linestyle=":", linewidth=1)
@@ -580,7 +584,7 @@ def main():
             means = [patch_stats[(s, p)]["long_lag_positive_auc"]["mean"] for p in PATCHES]
             errs = [patch_stats[(s, p)]["long_lag_positive_auc"]["sd"] for p in PATCHES]
             errs = [0.0 if not finite(e) else e for e in errs]
-            plt.errorbar(x, means, yerr=errs, marker="o", capsize=4, label=s.capitalize())
+            plt.errorbar(x, means, yerr=errs, marker="o", capsize=4, label=SPHERE_LABELS[s])
         plt.xticks(x, PATCHES)
         plt.xlabel("Fixed image-centered patch")
         plt.ylabel("Positive ACF area (0.5-2.0 s)")
@@ -606,7 +610,7 @@ def main():
             )
 
             for s in TARGET_SPHERES:
-                f.write(f"{s.capitalize()} (n={len(by_sphere[s])} runs)\n")
+                f.write(f"{SPHERE_LABELS[s]} (n={len(by_sphere[s])} runs)\n")
                 f.write("----------------------------------------\n")
                 for key, label in [
                     ("mean_S", "Run mean S_peak"),
@@ -617,7 +621,7 @@ def main():
                 ]:
                     st = material_stats[s][key]
                     f.write(
-                        f"{label}: {st['mean']:.8f} ± {st['sd']:.8f} SD\n"
+                        f"{label}: {fmt(st['mean'])} ± {fmt(st['sd'])} SD\n"
                     )
                 f.write("\n")
 
