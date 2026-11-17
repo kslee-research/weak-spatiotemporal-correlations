@@ -1,0 +1,42 @@
+[22:11:09] Run ID: steel_large_20261115_221109
+[22:11:09] Video: C:\tail_analysis\tails_pattern.mov
+[22:11:09] Sphere type: steel_large
+[22:11:09] Sphere diameter: 8.000000 cm
+[22:11:09] Sphere mass: 2.080000 kg
+[22:11:09] Frame size: W=3840, H=2160
+[22:11:09] Frame center: x=1920.000, y=1080.000
+[22:11:09] 3x3 spacing: dx=307.200px (0.0800W), dy=475.200px (0.2200H)
+[22:11:09] P1: row=0 col=0 x=1612.80 y=604.80 valid=True roi=(1612, 595, 1615, 616)
+[22:11:09] P2: row=0 col=1 x=1920.00 y=604.80 valid=True roi=(1919, 595, 1922, 616)
+[22:11:09] P3: row=0 col=2 x=2227.20 y=604.80 valid=True roi=(2226, 595, 2229, 616)
+[22:11:09] P4: row=1 col=0 x=1612.80 y=1080.00 valid=True roi=(1612, 1070, 1615, 1091)
+[22:11:09] P5: row=1 col=1 x=1920.00 y=1080.00 valid=True roi=(1919, 1070, 1922, 1091)
+[22:11:09] P6: row=1 col=2 x=2227.20 y=1080.00 valid=True roi=(2226, 1070, 2229, 1091)
+[22:11:09] P7: row=2 col=0 x=1612.80 y=1555.20 valid=True roi=(1612, 1545, 1615, 1566)
+[22:11:09] P8: row=2 col=1 x=1920.00 y=1555.20 valid=True roi=(1919, 1545, 1922, 1566)
+[22:11:09] P9: row=2 col=2 x=2227.20 y=1555.20 valid=True roi=(2226, 1545, 2229, 1566)
+[22:11:10] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\grid_preview.png
+[22:11:10] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\grid_preview.pdf
+[22:11:10] Control ROI: x=50.0px, y=1080.0px, valid=True, roi=(49, 1070, 52, 1091)
+[22:11:47] FPS=29.970030, frames=563, total_rois=10 (9 patches + control)
+[22:11:47] Autocorr lags: min_lag=3 (0.100s), max_lag=60 (2.002s)
+[22:11:47] P1: alpha=-0.015422 S_peak=+0.565744 AUC+=+0.013255 AUC_signed=-0.083224 decay_t=0.5339s
+[22:11:47] P2: alpha=+0.267278 S_peak=+0.512774 AUC+=+0.041790 AUC_signed=-0.003481 decay_t=0.4671s
+[22:11:47] P3: alpha=-0.001318 S_peak=+0.572959 AUC+=+0.101551 AUC_signed=+0.088729 decay_t=0.8342s
+[22:11:47] P4: alpha=+0.032495 S_peak=+0.618865 AUC+=+0.244769 AUC_signed=+0.244769 decay_t=1.5015s
+[22:11:47] P5: alpha=+0.015520 S_peak=+0.567142 AUC+=+0.129924 AUC_signed=+0.128639 decay_t=0.7674s
+[22:11:47] P6: alpha=+0.033438 S_peak=+0.524319 AUC+=+0.177156 AUC_signed=+0.177156 decay_t=0.7674s
+[22:11:47] P7: alpha=-0.040926 S_peak=+0.524232 AUC+=+0.071698 AUC_signed=+0.028167 decay_t=0.3670s
+[22:11:47] P8: alpha=+0.080766 S_peak=+0.466944 AUC+=+0.017783 AUC_signed=-0.006487 decay_t=0.5672s
+[22:11:47] P9: alpha=-0.002550 S_peak=+0.685770 AUC+=+0.231755 AUC_signed=+0.231755 decay_t=1.9353s
+[22:11:47] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\run_metadata.json
+[22:11:47] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\spatial_profile.csv
+[22:11:47] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\autocorr_curves.csv
+[22:11:47] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\temporal_metrics.csv
+[22:11:47] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\persistence_map.png
+[22:11:47] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\persistence_map.pdf
+[22:11:48] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\autocorr_curves.png
+[22:11:48] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\autocorr_curves.pdf
+[22:11:48] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\autocorr_map.png
+[22:11:48] Saved: C:\tail_analysis\results_center_referenced_radial_autocorr\steel_large_20261115_221109\autocorr_map.pdf
+[22:11:48] DONE.
